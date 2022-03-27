@@ -1,5 +1,6 @@
 package com.estu.wusic.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,10 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", unique = true)
     private String userName;
 
     @Column(name = "password")
@@ -27,7 +28,11 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    //for room
-    @Column(name = "is_joined")
-    private boolean isJoined;
+    @ManyToOne
+    @JoinColumn(name = "joined_room_id", referencedColumnName = "id")
+    private Room roomJoined;
+
+    @OneToOne
+    private Room roomCreated;
+
 }

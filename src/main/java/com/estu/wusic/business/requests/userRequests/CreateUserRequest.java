@@ -1,4 +1,4 @@
-package com.estu.wusic.business.requests;
+package com.estu.wusic.business.requests.userRequests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,5 +12,4 @@ public class CreateUserRequest {
     private String userName;
     private String password;
     private String email;
-    private boolean isJoined;
 }

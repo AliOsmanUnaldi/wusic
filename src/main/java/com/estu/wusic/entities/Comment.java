@@ -2,9 +2,9 @@ package com.estu.wusic.entities;
 
 public class Comment {
 
-    private long commentId;
-    private long commentsOwnerId;
-    private long commentsRecieverId;
+    private int commentId;
+    private int commentsOwnerId;
+    private int commentsRecieverId;
     private String comment;
 
 }

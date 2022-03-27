@@ -1,12 +1,14 @@
 package com.estu.wusic.api.controllers;
 
 import com.estu.wusic.business.abstracts.UserService;
-import com.estu.wusic.business.dtos.UserByIdDto;
-import com.estu.wusic.business.dtos.UserListDto;
-import com.estu.wusic.business.requests.CreateUserRequest;
-import com.estu.wusic.business.requests.UpdateUserRequest;
+import com.estu.wusic.business.dtos.userDtos.UserByIdDto;
+import com.estu.wusic.business.dtos.userDtos.UserListDto;
+import com.estu.wusic.business.requests.userRequests.CreateUserRequest;
+import com.estu.wusic.business.requests.userRequests.UpdateUserRequest;
+import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
+import com.estu.wusic.entities.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public class UsersController {
         return this.userService.getAll();
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/register")
     public Result add(@RequestBody CreateUserRequest createUserRequest){
         return this.userService.add(createUserRequest);
     }
@@ -54,5 +56,11 @@ public class UsersController {
     @GetMapping("/getAllUsersSorted")
     public DataResult<List<UserListDto>> getAllUsersSorted(@RequestParam String ascOrDesc){
         return this.userService.getAllUsersSorted(ascOrDesc);
+    }
+
+    @GetMapping("/login")
+    public DataResult<User> login(@RequestParam String userName, @RequestParam String password) throws BusinessException {
+
+        return this.userService.login(userName,password);
     }
 }

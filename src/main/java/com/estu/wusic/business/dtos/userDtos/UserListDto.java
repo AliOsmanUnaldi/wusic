@@ -1,4 +1,4 @@
-package com.estu.wusic.business.dtos;
+package com.estu.wusic.business.dtos.userDtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,5 +13,5 @@ public class UserListDto {
     private String userName;
     private String password;
     private String email;
-    private boolean isJoined;
+
 }
