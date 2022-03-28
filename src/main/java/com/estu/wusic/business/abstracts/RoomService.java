@@ -6,6 +6,7 @@ import com.estu.wusic.business.requests.roomRequests.CreateRoomRequest;
 import com.estu.wusic.business.requests.roomRequests.UpdateRoomRequest;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
+import com.estu.wusic.entities.Room;
 
 import java.util.List;
 
@@ -19,6 +20,10 @@ public interface RoomService {
 
     Result delete(int id);
 
-    DataResult<RoomByIdDto> getRoomByRoomId(int id);
+    DataResult<RoomByIdDto> getRoomDtoByRoomId(int id);
+
+    Room getRoomByRoomId(int roomId);
+
+    void save (Room room);
 
 }

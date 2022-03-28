@@ -27,8 +27,10 @@ public interface UserService {
 
     DataResult<List<UserListDto>> getAllUsersSorted(String ascOrDesc);
 
-    DataResult<User> login (String userName, String password) throws BusinessException;
+    DataResult<Integer> login (String userName, String password) throws BusinessException;
 
     User getUserEntityByUserId(int id);
+
+    Result joinIntoRoom(int userId, int roomId) throws BusinessException;
 
 }

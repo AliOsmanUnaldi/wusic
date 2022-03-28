@@ -23,7 +23,7 @@ public class Room {
     @Column(name = "id")
     private int id;
 
-    @OneToOne(mappedBy = "roomCreated")
+    @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
@@ -38,9 +38,6 @@ public class Room {
 
     @Column(name = "creation_date")
     private LocalDate creationDate;
-
-    @Column(name = "creation_time")
-    private Time creationTime;
 
     @Column(name = "location")
     private String location;

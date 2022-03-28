@@ -59,8 +59,14 @@ public class UsersController {
     }
 
     @GetMapping("/login")
-    public DataResult<User> login(@RequestParam String userName, @RequestParam String password) throws BusinessException {
+    public Result login(@RequestParam String userName, @RequestParam String password) throws BusinessException {
 
         return this.userService.login(userName,password);
+    }
+
+    @GetMapping("/joinIntoRoom")
+    public Result joinIntoRoom(@RequestParam int userId, @RequestParam int roomId) throws BusinessException {
+
+        return this.userService.joinIntoRoom(userId,roomId);
     }
 }

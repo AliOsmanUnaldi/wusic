@@ -48,6 +48,6 @@ public class RoomsController {
     @GetMapping("/getRoomByRoomId")
     public DataResult<RoomByIdDto> getRoomByRoomId(@RequestParam int id){
 
-        return this.roomService.getRoomByRoomId(id);
+        return this.roomService.getRoomDtoByRoomId(id);
     }
 }

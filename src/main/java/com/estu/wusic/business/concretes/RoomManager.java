@@ -13,7 +13,6 @@ import com.estu.wusic.core.utilities.results.SuccessDataResult;
 import com.estu.wusic.core.utilities.results.SuccessResult;
 import com.estu.wusic.dataAccess.abstracts.RoomDao;
 import com.estu.wusic.entities.Room;
-import com.estu.wusic.entities.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,11 +72,23 @@ public class RoomManager implements RoomService {
     }
 
     @Override
-    public DataResult<RoomByIdDto> getRoomByRoomId(int id) {
+    public DataResult<RoomByIdDto> getRoomDtoByRoomId(int id) {
 
         Room room = this.roomDao.getById(id);
         RoomByIdDto response = this.modelMapperService.forDto().map(room,RoomByIdDto.class);
 
         return new SuccessDataResult<RoomByIdDto>(response,"Oda id kullanarak bulundu.");
+    }
+
+    @Override
+    public Room getRoomByRoomId(int roomId) {
+
+        return this.roomDao.getById(roomId);
+    }
+
+    @Override
+    public void save(Room room) {
+
+        this.roomDao.save(room);
     }
 }

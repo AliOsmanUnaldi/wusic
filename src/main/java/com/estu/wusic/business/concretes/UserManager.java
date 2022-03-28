@@ -10,6 +10,7 @@ import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.mapping.ModelMapperService;
 import com.estu.wusic.core.utilities.results.*;
 import com.estu.wusic.dataAccess.abstracts.UserDao;
+import com.estu.wusic.entities.Room;
 import com.estu.wusic.entities.User;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
@@ -112,7 +113,7 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public DataResult<User> login(String userName, String password) throws BusinessException {
+    public DataResult<Integer> login(String userName, String password) throws BusinessException {
 
         User user = this.userDao.getUserByUserName(userName);
 
@@ -121,13 +122,31 @@ public class UserManager implements UserService {
             throw new BusinessException("Kullanıcı adı veya şifre yanlış!");
         }
 
-        return new SuccessDataResult<User>(user,"Kullanıcı başarıyla giriş yaptı.");
+       // user.setLoggedIn(true);
+        return new SuccessDataResult<Integer>(user.getId(),"Kullanıcı başarıyla giriş yaptı.");
     }
 
     @Override
     public User getUserEntityByUserId(int id) {
 
         return this.userDao.getById(id);
+    }
+
+    @Override
+    public Result joinIntoRoom(int userId, int roomId) throws BusinessException {
+
+
+        Room room = this.roomService.getRoomByRoomId(roomId);
+        User user = this.userDao.getById(userId);
+
+        user.setRoomJoined(room);
+        List<User> participants = room.getParticipants();
+        participants.add(user);
+
+        this.userDao.save(user);
+        this.roomService.save(room);
+
+        return new SuccessResult("Kullanıcı  odaya başarılı bir şekilde giriş yaptı.");
     }
 
     private boolean checkIfUserExists(User user){
@@ -143,5 +162,17 @@ public class UserManager implements UserService {
         }
         return false;
     }
+
+ /*   private boolean checkIfUserDidNotLogIn(int userId) throws BusinessException {
+
+        User user = this.userDao.getById(userId);
+
+        if (!user.isLoggedIn()){
+
+            throw new BusinessException("Bu işlemi yapmak için önce uygulamaya giriş yapın!");
+        }
+
+        return true;
+    }*/
 
 }

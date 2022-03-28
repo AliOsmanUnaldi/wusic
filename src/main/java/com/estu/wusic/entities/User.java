@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,7 +33,7 @@ public class User {
     @JoinColumn(name = "joined_room_id", referencedColumnName = "id")
     private Room roomJoined;
 
-    @OneToOne
-    private Room roomCreated;
+    @OneToMany(mappedBy = "owner")
+    private List<Room> roomCreated;
 
 }
