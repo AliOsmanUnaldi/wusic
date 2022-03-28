@@ -122,7 +122,9 @@ public class UserManager implements UserService {
             throw new BusinessException("Kullanıcı adı veya şifre yanlış!");
         }
 
-       // user.setLoggedIn(true);
+        user.setLoogedIn(true);
+        this.userDao.save(user);
+
         return new SuccessDataResult<Integer>(user.getId(),"Kullanıcı başarıyla giriş yaptı.");
     }
 
@@ -135,6 +137,7 @@ public class UserManager implements UserService {
     @Override
     public Result joinIntoRoom(int userId, int roomId) throws BusinessException {
 
+        checkIfUserDidNotLogIn(userId);
 
         Room room = this.roomService.getRoomByRoomId(roomId);
         User user = this.userDao.getById(userId);
@@ -163,16 +166,16 @@ public class UserManager implements UserService {
         return false;
     }
 
- /*   private boolean checkIfUserDidNotLogIn(int userId) throws BusinessException {
+    private boolean checkIfUserDidNotLogIn(int userId) throws BusinessException {
 
         User user = this.userDao.getById(userId);
 
-        if (!user.isLoggedIn()){
+        if (!user.isLoogedIn()){
 
             throw new BusinessException("Bu işlemi yapmak için önce uygulamaya giriş yapın!");
         }
 
         return true;
-    }*/
+    }
 
 }

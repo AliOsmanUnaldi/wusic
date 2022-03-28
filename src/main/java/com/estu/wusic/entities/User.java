@@ -36,4 +36,6 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private List<Room> roomCreated;
 
+    private boolean isLoogedIn;
+
 }
