@@ -10,8 +10,5 @@ import java.util.List;
 @Repository
 public interface CommentDao extends JpaRepository<Comment,Integer> {
 
-  //  @Query("select c from City c where c.name like %?1")
-    //List<City> findByNameEndsWith(String chars);
-
     public List<Comment> getAllByCommentsRecieverId_Id(int commentRecieverId);
 }
