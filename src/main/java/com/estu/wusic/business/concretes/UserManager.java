@@ -137,7 +137,10 @@ public class UserManager implements UserService {
     @Override
     public Result joinIntoRoom(int userId, int roomId) throws BusinessException {
 
-        checkIfUserDidNotLogIn(userId);
+        checkIfUserDidLogIn(userId);
+        if (!this.roomService.checkIfRoomExists(roomId)){
+            throw new BusinessException("Oda mevcut değil.");
+        }
 
         Room room = this.roomService.getRoomByRoomId(roomId);
         User user = this.userDao.getById(userId);
@@ -152,7 +155,8 @@ public class UserManager implements UserService {
         return new SuccessResult("Kullanıcı  odaya başarılı bir şekilde giriş yaptı.");
     }
 
-    private boolean checkIfUserExists(User user){
+    @Override
+    public boolean checkIfUserExists(User user){
 
         return this.userDao.existsById(user.getId());
     }
@@ -166,7 +170,8 @@ public class UserManager implements UserService {
         return false;
     }
 
-    private boolean checkIfUserDidNotLogIn(int userId) throws BusinessException {
+    @Override
+    public boolean checkIfUserDidLogIn(int userId) throws BusinessException {
 
         User user = this.userDao.getById(userId);
 
@@ -176,6 +181,12 @@ public class UserManager implements UserService {
         }
 
         return true;
+    }
+
+    @Override
+    public User getUserById(int id) {
+
+        return this.userDao.getById(id);
     }
 
 }

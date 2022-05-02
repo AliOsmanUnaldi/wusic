@@ -6,6 +6,7 @@ import com.estu.wusic.business.dtos.roomDtos.RoomByIdDto;
 import com.estu.wusic.business.dtos.roomDtos.RoomListDto;
 import com.estu.wusic.business.requests.roomRequests.CreateRoomRequest;
 import com.estu.wusic.business.requests.roomRequests.UpdateRoomRequest;
+import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.mapping.ModelMapperService;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
@@ -81,7 +82,11 @@ public class RoomManager implements RoomService {
     }
 
     @Override
-    public Room getRoomByRoomId(int roomId) {
+    public Room getRoomByRoomId(int roomId) throws BusinessException {
+
+        if (!checkIfRoomExists(roomId)){
+            throw new BusinessException("Oda bulunamadı.");
+        }
 
         return this.roomDao.getById(roomId);
     }
@@ -91,4 +96,11 @@ public class RoomManager implements RoomService {
 
         this.roomDao.save(room);
     }
+
+    @Override
+    public boolean checkIfRoomExists(int roomId){
+
+        return this.roomDao.existsById(roomId);
+    }
+
 }

@@ -1,9 +1,11 @@
 package com.estu.wusic.business.concretes;
 
 import com.estu.wusic.business.abstracts.CommentService;
+import com.estu.wusic.business.abstracts.UserService;
 import com.estu.wusic.business.dtos.commentDtos.CommentByIdDto;
 import com.estu.wusic.business.dtos.commentDtos.CommentListByIdDto;
 import com.estu.wusic.business.requests.commentRequests.CreateCommentRequest;
+import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.mapping.ModelMapperService;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
@@ -23,15 +25,24 @@ public class CommentManager implements CommentService {
 
     private CommentDao commentDao;
     private ModelMapperService modelMapperService;
+    private UserService userService;
 
     @Autowired
-    public CommentManager(CommentDao commentDao, ModelMapperService modelMapperService) {
+    public CommentManager(CommentDao commentDao, ModelMapperService modelMapperService, UserService userService) {
         this.commentDao = commentDao;
         this.modelMapperService = modelMapperService;
+        this.userService = userService;
     }
 
     @Override
-    public Result add(CreateCommentRequest createCommentRequest) {
+    public Result add(CreateCommentRequest createCommentRequest) throws BusinessException {
+
+        if (!this.userService.checkIfUserExists(this.userService.getUserById(createCommentRequest.getCommentsOwnerId()))
+        && !this.userService.checkIfUserExists(this.userService.getUserById(createCommentRequest.getCommentsRecieverId()))
+        && this.userService.checkIfUserDidLogIn(createCommentRequest.getCommentsOwnerId())
+        && this.userService.checkIfUserDidLogIn(createCommentRequest.getCommentsRecieverId())){
+             throw new BusinessException("Bir hata oluştu.");
+        }
 
         Comment comment = this.modelMapperService.forRequest().map(createCommentRequest,Comment.class);
 

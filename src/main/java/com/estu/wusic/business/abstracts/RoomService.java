@@ -4,6 +4,7 @@ import com.estu.wusic.business.dtos.roomDtos.RoomByIdDto;
 import com.estu.wusic.business.dtos.roomDtos.RoomListDto;
 import com.estu.wusic.business.requests.roomRequests.CreateRoomRequest;
 import com.estu.wusic.business.requests.roomRequests.UpdateRoomRequest;
+import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import com.estu.wusic.entities.Room;
@@ -22,8 +23,10 @@ public interface RoomService {
 
     DataResult<RoomByIdDto> getRoomDtoByRoomId(int id);
 
-    Room getRoomByRoomId(int roomId);
+    Room getRoomByRoomId(int roomId) throws BusinessException;
 
     void save (Room room);
+
+    boolean checkIfRoomExists(int roomId);
 
 }

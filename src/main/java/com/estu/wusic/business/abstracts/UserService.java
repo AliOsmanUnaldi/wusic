@@ -8,7 +8,6 @@ import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import com.estu.wusic.entities.User;
-import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -34,5 +33,10 @@ public interface UserService {
 
     Result joinIntoRoom(int userId, int roomId) throws BusinessException;
 
+    boolean checkIfUserExists(User user);
+
+    boolean checkIfUserDidLogIn(int userId) throws BusinessException;
+
+    User getUserById(int id);
 
 }
