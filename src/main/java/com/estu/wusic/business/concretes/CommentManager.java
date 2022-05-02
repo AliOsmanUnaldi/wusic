@@ -34,8 +34,6 @@ public class CommentManager implements CommentService {
     public Result add(CreateCommentRequest createCommentRequest) {
 
         Comment comment = this.modelMapperService.forRequest().map(createCommentRequest,Comment.class);
-        comment.setCommentText(createCommentRequest.getCommentText());
-        System.out.println(createCommentRequest.getCommentText());
 
         this.commentDao.save(comment);
 
@@ -46,9 +44,7 @@ public class CommentManager implements CommentService {
     public DataResult getCommentDtoByCommentId(int id) {
 
         Comment comment = commentDao.getById(id);
-        System.out.println(comment.getCommentText());
         CommentByIdDto commentByIdDto = this.modelMapperService.forDto().map(comment,CommentByIdDto.class);
-        commentByIdDto.setCommentText(comment.getCommentText());
 
         return new SuccessDataResult(commentByIdDto,"Yorum başarılı bir şekilde bulundu.");
     }
@@ -57,7 +53,7 @@ public class CommentManager implements CommentService {
     @Override
     public DataResult getCommentsByCommentRecieversId(int id) {
 
-        List<Comment> comments = commentDao.getAllByCommentsRecieverId_Id(id);
+        List<Comment> comments = commentDao.getAllByCommentsRecieverId(id);
         List<CommentListByIdDto> result = comments.stream()
                 .map(comment -> this.modelMapperService.forDto().map(comment,CommentListByIdDto.class))
                 .collect(Collectors.toList());

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comments")
+@Table(name = "points")
 public class Point {
 
     @Id
@@ -24,7 +24,7 @@ public class Point {
 
     @ManyToOne
     @JoinColumn(name = "points_reciever_id", referencedColumnName = "id")
-    private User pointsRecieverId;
+    private User pointsReciever;
 
     @Column(name = "given_point")
     private double givenPoint;
