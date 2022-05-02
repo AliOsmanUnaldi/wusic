@@ -69,4 +69,5 @@ public class UsersController {
 
         return this.userService.joinIntoRoom(userId,roomId);
     }
+
 }
