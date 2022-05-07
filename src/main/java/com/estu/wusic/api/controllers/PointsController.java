@@ -8,6 +8,7 @@ import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class PointsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody CreatePointRequest createPointRequest){
+    public Result add(@RequestBody @Valid CreatePointRequest createPointRequest){
         return this.pointService.add(createPointRequest);
     }
 
@@ -33,5 +34,10 @@ public class PointsController {
     @GetMapping("/getAllByRecieversId")
     public DataResult<List<PointListDto>> getAllByRecieversId(@RequestParam int id){
         return this.pointService.getAllByPointsRecieverId(id);
+    }
+
+    @GetMapping("/getAvaragePoint")
+    public DataResult<Double> getAvaragePoint(@RequestParam int userId){
+        return this.pointService.getAvaragePointOfHost(userId);
     }
 }

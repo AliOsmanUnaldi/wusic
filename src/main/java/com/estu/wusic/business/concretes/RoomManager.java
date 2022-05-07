@@ -48,7 +48,9 @@ public class RoomManager implements RoomService {
     }
 
     @Override
-    public DataResult<List<RoomListDto>> getAllRoomsByCityName(String city) {
+    public DataResult<List<RoomListDto>> getAllRoomsByCityName(String city, int userId) throws BusinessException {
+
+        this.userService.checkIfUserDidLogIn(userId);
         List<Room> result = this.roomDao.getAllByCity_City(city);
         List<RoomListDto> response = result.stream()
                 .map(room -> this.modelMapperService.forDto().map(room,RoomListDto.class))
@@ -59,25 +61,23 @@ public class RoomManager implements RoomService {
 
 
     @Override
-    public Result add(CreateRoomRequest createRoomRequest) {
+    public Result add(CreateRoomRequest createRoomRequest) throws BusinessException {
 
-        System.out.println(this.cityDao.findAll());
-
+        this.userService.checkIfUserDidLogIn(createRoomRequest.getOwnerId());
         Room room = this.modelMapperService.forRequest().map(createRoomRequest,Room.class);
         room.setCity(this.cityDao.getById(createRoomRequest.getCity()));
-
+        room.setCreationDate(java.time.LocalDate.now());
         this.roomDao.save(room);
 
         return new SuccessResult("Oda başarılı bir şekilde oluşturuldu.");
     }
 
     @Override
-    public Result update(UpdateRoomRequest updateRoomRequest) {
+    public Result update(UpdateRoomRequest updateRoomRequest) throws BusinessException {
 
+        this.userService.checkIfUserDidLogIn(updateRoomRequest.getOwnerId());
         Room room = this.modelMapperService.forRequest().map(updateRoomRequest,Room.class);
-
         this.roomDao.save(room);
-
         return new SuccessResult("Oda başarıyla güncellendi.");
     }
 

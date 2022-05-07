@@ -35,6 +35,8 @@ public interface UserService {
 
     Result leaveFromRoom(int userId) throws BusinessException;
 
+    Result quit(int id);
+
     boolean checkIfUserExists(User user);
 
     boolean checkIfUserDidLogIn(int userId) throws BusinessException;

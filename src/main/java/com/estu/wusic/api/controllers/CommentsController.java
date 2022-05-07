@@ -8,6 +8,8 @@ import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/comments")
 public class CommentsController {
@@ -19,7 +21,7 @@ public class CommentsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody CreateCommentRequest createCommentRequest) throws BusinessException {
+    public Result add(@RequestBody @Valid CreateCommentRequest createCommentRequest) throws BusinessException {
         return this.commentService.add(createCommentRequest);
     }
 

@@ -170,6 +170,16 @@ public class UserManager implements UserService {
     }
 
     @Override
+    public Result quit(int id) {
+
+        User user = this.userDao.getById(id);
+        user.setLoogedIn(false);
+        this.userDao.save(user);
+
+        return new SuccessResult("Kullanıcı başarıyla çıkış yaptı.");
+    }
+
+    @Override
     public boolean checkIfUserExists(User user){
 
         return this.userDao.existsById(user.getId());

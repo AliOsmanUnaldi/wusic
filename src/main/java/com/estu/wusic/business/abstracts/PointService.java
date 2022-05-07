@@ -13,4 +13,5 @@ public interface PointService {
     Result add(CreatePointRequest createPointRequest);
     DataResult<PointByIdDto> getPointByPointId(int id);
     DataResult<List<PointListDto>> getAllByPointsRecieverId(int id);
+    DataResult<Double> getAvaragePointOfHost(int userId);
 }

@@ -61,20 +61,22 @@ public class UsersController {
 
     @GetMapping("/login")
     public Result login(@RequestParam String userName, @RequestParam String password) throws BusinessException {
-
         return this.userService.login(userName,password);
     }
 
     @GetMapping("/joinIntoRoom")
     public Result joinIntoRoom(@RequestParam int userId, @RequestParam int roomId) throws BusinessException {
-
         return this.userService.joinIntoRoom(userId,roomId);
     }
 
     @GetMapping("/leaveFromRoom")
     public Result leaveFromRoom(@RequestBody int userId) throws BusinessException {
-
         return this.userService.leaveFromRoom(userId);
+    }
+
+    @GetMapping("/quit")
+    public Result quit(@RequestParam int id){
+        return this.userService.quit(id);
     }
 
 }

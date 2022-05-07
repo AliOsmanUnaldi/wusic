@@ -5,10 +5,12 @@ import com.estu.wusic.business.dtos.roomDtos.RoomByIdDto;
 import com.estu.wusic.business.dtos.roomDtos.RoomListDto;
 import com.estu.wusic.business.requests.roomRequests.CreateRoomRequest;
 import com.estu.wusic.business.requests.roomRequests.UpdateRoomRequest;
+import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,13 +30,13 @@ public class RoomsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody CreateRoomRequest createRoomRequest){
+    public Result add(@RequestBody @Valid CreateRoomRequest createRoomRequest) throws BusinessException {
 
         return this.roomService.add(createRoomRequest);
     }
 
     @PutMapping("/update")
-    public Result update(@RequestBody UpdateRoomRequest updateRoomRequest){
+    public Result update(@RequestBody UpdateRoomRequest updateRoomRequest) throws BusinessException {
 
         return this.roomService.update(updateRoomRequest);
     }
@@ -52,8 +54,8 @@ public class RoomsController {
     }
 
     @GetMapping("/getAllByCityName")
-    public DataResult<List<RoomListDto>> getAllRoomsByCity(@RequestParam String city){
+    public DataResult<List<RoomListDto>> getAllRoomsByCity(@RequestParam String city, @RequestParam int userId) throws BusinessException {
 
-        return this.roomService.getAllRoomsByCityName(city);
+        return this.roomService.getAllRoomsByCityName(city,userId);
     }
 }

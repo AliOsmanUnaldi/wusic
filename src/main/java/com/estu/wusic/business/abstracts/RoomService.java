@@ -15,11 +15,11 @@ public interface RoomService {
 
     DataResult<List<RoomListDto>> getAll();
 
-    DataResult<List<RoomListDto>> getAllRoomsByCityName(String city);
+    DataResult<List<RoomListDto>> getAllRoomsByCityName(String city, int userId) throws BusinessException;
 
-    Result add(CreateRoomRequest createRoomRequest);
+    Result add(CreateRoomRequest createRoomRequest) throws BusinessException;
 
-    Result update(UpdateRoomRequest updateRoomRequest);
+    Result update(UpdateRoomRequest updateRoomRequest) throws BusinessException;
 
     Result delete(int id);
 

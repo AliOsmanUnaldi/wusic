@@ -54,4 +54,19 @@ public class PointManager implements PointService {
 
         return new SuccessDataResult<List<PointListDto>>(result,"Kullanıcının aldığı puanlar listelendi.");
     }
+
+    @Override
+    public DataResult<Double> getAvaragePointOfHost(int userId) {
+
+        double result=0;
+
+        for (Point p:this.pointDao.getAllByPointsRecieverId(userId)
+             ) {
+            result += p.getGivenPoint();
+        }
+
+        result /= this.pointDao.getAllByPointsRecieverId(userId).size();
+
+        return new SuccessDataResult<Double>(result,"Kullanıcın ortalama puanı başarıyla hesaplandı.");
+    }
 }
