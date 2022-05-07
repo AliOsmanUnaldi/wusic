@@ -15,6 +15,8 @@ public interface RoomService {
 
     DataResult<List<RoomListDto>> getAll();
 
+    DataResult<List<RoomListDto>> getAllRoomsByCityName(String city);
+
     Result add(CreateRoomRequest createRoomRequest);
 
     Result update(UpdateRoomRequest updateRoomRequest);

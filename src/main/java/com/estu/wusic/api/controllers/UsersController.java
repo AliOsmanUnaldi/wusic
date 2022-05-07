@@ -11,6 +11,7 @@ import com.estu.wusic.core.utilities.results.Result;
 import com.estu.wusic.entities.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,12 +30,12 @@ public class UsersController {
     }
 
     @PostMapping("/register")
-    public Result add(@RequestBody CreateUserRequest createUserRequest){
+    public Result add(@RequestBody @Valid CreateUserRequest createUserRequest){
         return this.userService.add(createUserRequest);
     }
 
     @PostMapping("/updateUser")
-    public Result update(@RequestBody UpdateUserRequest updateUserRequest){
+    public Result update(@RequestBody @Valid UpdateUserRequest updateUserRequest){
         return this.userService.update(updateUserRequest);
     }
 
@@ -68,6 +69,12 @@ public class UsersController {
     public Result joinIntoRoom(@RequestParam int userId, @RequestParam int roomId) throws BusinessException {
 
         return this.userService.joinIntoRoom(userId,roomId);
+    }
+
+    @GetMapping("/leaveFromRoom")
+    public Result leaveFromRoom(@RequestBody int userId) throws BusinessException {
+
+        return this.userService.leaveFromRoom(userId);
     }
 
 }

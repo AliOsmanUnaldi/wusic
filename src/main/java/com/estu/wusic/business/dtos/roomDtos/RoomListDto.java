@@ -17,7 +17,7 @@ public class RoomListDto {
 
     private String genre;
 
-    private String location;
+    private String city;
 
     private String description;
 }

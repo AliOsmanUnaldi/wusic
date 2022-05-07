@@ -3,6 +3,7 @@ package com.estu.wusic.api.controllers;
 
 import com.estu.wusic.business.abstracts.CommentService;
 import com.estu.wusic.business.requests.commentRequests.CreateCommentRequest;
+import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CommentsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody CreateCommentRequest createCommentRequest){
+    public Result add(@RequestBody CreateCommentRequest createCommentRequest) throws BusinessException {
         return this.commentService.add(createCommentRequest);
     }
 

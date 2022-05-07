@@ -156,6 +156,20 @@ public class UserManager implements UserService {
     }
 
     @Override
+    public Result leaveFromRoom(int userId) throws BusinessException {
+
+        User user = this.userDao.getById(userId);
+        user.setRoomJoined(null);
+        this.userDao.save(user);
+
+        if (user.getRoomJoined() != null){
+            throw new BusinessException("Odadan çıkılamadı!");
+        }
+
+        return new SuccessResult("Odadan başarıyla çıkıldı.");
+    }
+
+    @Override
     public boolean checkIfUserExists(User user){
 
         return this.userDao.existsById(user.getId());

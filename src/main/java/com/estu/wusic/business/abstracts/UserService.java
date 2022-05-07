@@ -33,6 +33,8 @@ public interface UserService {
 
     Result joinIntoRoom(int userId, int roomId) throws BusinessException;
 
+    Result leaveFromRoom(int userId) throws BusinessException;
+
     boolean checkIfUserExists(User user);
 
     boolean checkIfUserDidLogIn(int userId) throws BusinessException;

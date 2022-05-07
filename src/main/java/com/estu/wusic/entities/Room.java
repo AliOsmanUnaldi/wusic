@@ -39,8 +39,9 @@ public class Room {
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
-    @Column(name = "location")
-    private String location;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "city", referencedColumnName = "id")
+    private City city;
 
     @Column(name = "password")
     private String password;

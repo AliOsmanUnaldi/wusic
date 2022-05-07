@@ -15,7 +15,7 @@ public class RoomByIdDto {
 
     private String genre;
 
-    private String location;
+    private String city;
 
     private String description;
 }

@@ -12,6 +12,7 @@ import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import com.estu.wusic.core.utilities.results.SuccessDataResult;
 import com.estu.wusic.core.utilities.results.SuccessResult;
+import com.estu.wusic.dataAccess.abstracts.CityDao;
 import com.estu.wusic.dataAccess.abstracts.RoomDao;
 import com.estu.wusic.entities.Room;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,14 @@ public class RoomManager implements RoomService {
     private RoomDao roomDao;
     private ModelMapperService modelMapperService;
     private UserService userService;
+    private CityDao cityDao;
 
-    public RoomManager(RoomDao roomDao, ModelMapperService modelMapperService, UserService userService) {
+    public RoomManager(RoomDao roomDao, ModelMapperService modelMapperService, UserService userService,CityDao cityDao) {
 
         this.roomDao = roomDao;
         this.modelMapperService = modelMapperService;
         this.userService = userService;
+        this.cityDao = cityDao;
     }
 
     @Override
@@ -45,9 +48,23 @@ public class RoomManager implements RoomService {
     }
 
     @Override
+    public DataResult<List<RoomListDto>> getAllRoomsByCityName(String city) {
+        List<Room> result = this.roomDao.getAllByCity_City(city);
+        List<RoomListDto> response = result.stream()
+                .map(room -> this.modelMapperService.forDto().map(room,RoomListDto.class))
+                .collect(Collectors.toList());
+
+        return new SuccessDataResult<List<RoomListDto>>(response,city+" şehrindeki tüm odalar listelendi.");
+    }
+
+
+    @Override
     public Result add(CreateRoomRequest createRoomRequest) {
 
+        System.out.println(this.cityDao.findAll());
+
         Room room = this.modelMapperService.forRequest().map(createRoomRequest,Room.class);
+        room.setCity(this.cityDao.getById(createRoomRequest.getCity()));
 
         this.roomDao.save(room);
 

@@ -15,7 +15,7 @@ public class CreateRoomRequest {
 
     private String genre;
 
-    private String location;
+    private int city;
 
     private String password;
 

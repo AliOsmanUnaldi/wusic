@@ -50,4 +50,10 @@ public class RoomsController {
 
         return this.roomService.getRoomDtoByRoomId(id);
     }
+
+    @GetMapping("/getAllByCityName")
+    public DataResult<List<RoomListDto>> getAllRoomsByCity(@RequestParam String city){
+
+        return this.roomService.getAllRoomsByCityName(city);
+    }
 }
