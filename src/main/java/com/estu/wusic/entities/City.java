@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.naming.Name;
 import javax.persistence.*;
 
 @Entity
@@ -24,4 +23,8 @@ public class City {
 
     @Column(name = "district")
     private String district;
+
+    public City(String city) {
+        this.city = city;
+    }
 }
