@@ -47,7 +47,10 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public Result add(CreateUserRequest createUserRequest) {
+    public Result add(CreateUserRequest createUserRequest) throws BusinessException {
+
+        checkIfUserNameIsUnique(createUserRequest.getUserName());
+        checkIfPasswordLengthIsNotLessThanFiveChars(createUserRequest.getPassword());
 
         User user = this.modelMapperService.forRequest().map(createUserRequest,User.class);
 
@@ -213,4 +216,20 @@ public class UserManager implements UserService {
         return this.userDao.getById(id);
     }
 
+    private boolean checkIfPasswordLengthIsNotLessThanFiveChars(String password) throws BusinessException {
+
+        if (password.length()<5){
+            throw new BusinessException("Şifre 5 karakterden az olamaz!");
+        }
+
+        return true;
+    }
+
+    private boolean checkIfUserNameIsUnique(String userName) throws BusinessException {
+
+        if (this.userDao.getUserByUserName(userName) != null){
+            throw new BusinessException("Kullanıcı adı daha önce alınmış! Lütfen başka bir kullanıcı adı seçin.");
+        }
+      return true;
+    }
 }

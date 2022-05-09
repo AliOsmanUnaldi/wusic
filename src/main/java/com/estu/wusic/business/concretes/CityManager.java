@@ -45,6 +45,8 @@ public class CityManager implements CityService {
     @Override
     public DataResult<City> getCityByCityName(String cityName) {
 
-        return new SuccessDataResult<City>(this.cityDao.getCityByCity(cityName.toUpperCase()),"Şehir başarıyla getirildi.");
+        City city = this.cityDao.getCityByCity(cityName);
+
+        return new SuccessDataResult<City>(city,"Şehir başarıyla getirildi.");
     }
 }

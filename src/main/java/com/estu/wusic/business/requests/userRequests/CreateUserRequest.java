@@ -15,7 +15,6 @@ public class CreateUserRequest {
     @NotNull
     private String userName;
 
-    @Min(5)
     @NotNull
     private String password;
 

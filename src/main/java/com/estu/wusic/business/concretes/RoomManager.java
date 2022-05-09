@@ -50,6 +50,7 @@ public class RoomManager implements RoomService {
     @Override
     public DataResult<List<RoomListDto>> getAllRoomsByCityName(String city, int userId) throws BusinessException {
 
+        city = city.toUpperCase();
         this.userService.checkIfUserDidLogIn(userId);
         List<Room> result = this.roomDao.getAllByCity_City(city);
         List<RoomListDto> response = result.stream()

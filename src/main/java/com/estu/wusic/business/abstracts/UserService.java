@@ -15,7 +15,7 @@ public interface UserService {
 
     DataResult<List<UserListDto>> getAll();
 
-    Result add(CreateUserRequest createUserRequest);
+    Result add(CreateUserRequest createUserRequest) throws BusinessException;
 
     Result update(UpdateUserRequest updateUserRequest);
 

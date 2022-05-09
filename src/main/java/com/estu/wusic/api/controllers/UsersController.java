@@ -30,7 +30,7 @@ public class UsersController {
     }
 
     @PostMapping("/register")
-    public Result add(@RequestBody @Valid CreateUserRequest createUserRequest){
+    public Result add(@RequestBody @Valid CreateUserRequest createUserRequest) throws BusinessException {
         return this.userService.add(createUserRequest);
     }
 
