@@ -118,11 +118,13 @@ public class UserManager implements UserService {
     @Override
     public DataResult<Integer> login(String userName, String password) throws BusinessException {
 
+        checkIfUserIsNotNull(userName);
+
         User user = this.userDao.getUserByUserName(userName);
 
-        if (!(checkIfUserExists(user) && checkIfPasswordIsCorrect(user,password))){
+        if (!checkIfPasswordIsCorrect(user,password)){
 
-            throw new BusinessException("Kullanıcı adı veya şifre yanlış!");
+            throw new BusinessException("Hata! Şifre yanlış!");
         }
 
         user.setLoogedIn(true);
@@ -231,5 +233,14 @@ public class UserManager implements UserService {
             throw new BusinessException("Kullanıcı adı daha önce alınmış! Lütfen başka bir kullanıcı adı seçin.");
         }
       return true;
+    }
+
+    private boolean checkIfUserIsNotNull(String userName) throws BusinessException {
+
+        if (this.userDao.getUserByUserName(userName) == null){
+            throw new BusinessException("Kullanıcı bulunamadı!");
+        }
+
+        return true;
     }
 }
