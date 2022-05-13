@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomByIdDto {
 
+    private int id;
+
     private int ownerId;
 
     private String roomName;
