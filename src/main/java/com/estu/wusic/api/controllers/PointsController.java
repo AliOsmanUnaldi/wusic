@@ -4,6 +4,7 @@ import com.estu.wusic.business.abstracts.PointService;
 import com.estu.wusic.business.dtos.pointDtos.PointByIdDto;
 import com.estu.wusic.business.dtos.pointDtos.PointListDto;
 import com.estu.wusic.business.requests.pointRequests.CreatePointRequest;
+import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class PointsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody @Valid CreatePointRequest createPointRequest){
+    public Result add(@RequestBody @Valid CreatePointRequest createPointRequest) throws BusinessException {
         return this.pointService.add(createPointRequest);
     }
 

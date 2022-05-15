@@ -1,6 +1,7 @@
 package com.estu.wusic.business.concretes;
 
 import com.estu.wusic.business.abstracts.CommentService;
+import com.estu.wusic.business.abstracts.RoomService;
 import com.estu.wusic.business.abstracts.UserService;
 import com.estu.wusic.business.dtos.commentDtos.CommentByIdDto;
 import com.estu.wusic.business.dtos.commentDtos.CommentListByIdDto;
@@ -26,12 +27,14 @@ public class CommentManager implements CommentService {
     private CommentDao commentDao;
     private ModelMapperService modelMapperService;
     private UserService userService;
-
+    private RoomService roomService;
     @Autowired
-    public CommentManager(CommentDao commentDao, ModelMapperService modelMapperService, UserService userService) {
+    public CommentManager(CommentDao commentDao, ModelMapperService modelMapperService, UserService userService,
+                          RoomService roomService) {
         this.commentDao = commentDao;
         this.modelMapperService = modelMapperService;
         this.userService = userService;
+        this.roomService = roomService;
     }
 
     @Override
@@ -46,6 +49,7 @@ public class CommentManager implements CommentService {
 
         Comment comment = this.modelMapperService.forRequest().map(createCommentRequest,Comment.class);
 
+        checkIfUserIsInTheRoom(createCommentRequest.getCommentsOwnerId(),comment);
         this.commentDao.save(comment);
 
         return new SuccessResult("Yorum başarılı bir şekilde eklendi.");
@@ -76,5 +80,15 @@ public class CommentManager implements CommentService {
     public void save(Comment comment) {
 
         this.commentDao.save(comment);
+    }
+
+    public boolean checkIfUserIsInTheRoom(int ownerId, Comment comment) throws BusinessException {
+
+        if (this.userService.getUserById(ownerId).getRoomJoined() !=
+                this.roomService.getRoomByOwner_OwnerId(comment.getCommentsReciever().getId())){
+            throw new BusinessException("Bu odada katılımcı değilsiniz");
+        }
+
+        return true;
     }
 }

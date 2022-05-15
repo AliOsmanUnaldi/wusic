@@ -31,15 +31,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserManager implements UserService {
-
     private UserDao userDao;
     private ModelMapperService modelMapperService;
     private RoomService roomService;
-
     private PointService pointService;
-
     private CommentService commentService;
-
     public UserManager(UserDao userDao, ModelMapperService modelMapperService,@Lazy RoomService roomService,
                        @Lazy CommentService commentService,@Lazy PointService pointService) {
 
@@ -49,7 +45,6 @@ public class UserManager implements UserService {
         this.commentService = commentService;
         this.pointService = pointService;
     }
-
     @Override
     public DataResult<List<UserListDto>> getAll() {
 
@@ -60,7 +55,6 @@ public class UserManager implements UserService {
 
         return new SuccessDataResult<List<UserListDto>>(response,"Kullanıcılar başarılı bir şekilde listelendi.");
     }
-
     @Override
     public Result add(CreateUserRequest createUserRequest) throws BusinessException {
 
@@ -73,7 +67,6 @@ public class UserManager implements UserService {
 
         return new SuccessResult("Kullanıcı başarılı bir şekilde kaydoldu.");
     }
-
     @Override
     public Result update(UpdateUserRequest updateUserRequest) {
 
@@ -83,7 +76,6 @@ public class UserManager implements UserService {
 
         return new SuccessResult("Kullanıcı bilgileri başarıyla güncellendi.");
     }
-
     @Override
     public DataResult<UserByIdDto> getUserByUserId(int id) {
 
@@ -92,7 +84,6 @@ public class UserManager implements UserService {
 
         return new SuccessDataResult<UserByIdDto>(response,"Kullanıcı başarılı bir şekilde bulundu.");
     }
-
     @Override
     public Result deleteUserByUserId(int id) {
 
@@ -100,7 +91,6 @@ public class UserManager implements UserService {
 
         return new SuccessResult("Kullanıcı başarıyla silindi.");
     }
-
     @Override
     public DataResult<List<UserListDto>> getAllUsersPaged(int pageNo, int pageSize) {
 
@@ -113,7 +103,6 @@ public class UserManager implements UserService {
 
         return new SuccessDataResult<List<UserListDto>>(response,"Kullanıcılar başarılı bir şekilde sayfalandı.");
     }
-
     @Override
     public DataResult<List<UserListDto>> getAllUsersSorted(String ascOrDesc) {
 
@@ -129,7 +118,6 @@ public class UserManager implements UserService {
 
         return new SuccessDataResult<List<UserListDto>>(response,"Kullanıcılar başarılı bir şekilde sıralandı.");
     }
-
     @Override
     public DataResult<Integer> login(String userName, String password) throws BusinessException {
 
@@ -147,13 +135,11 @@ public class UserManager implements UserService {
 
         return new SuccessDataResult<Integer>(user.getId(),"Kullanıcı başarıyla giriş yaptı.");
     }
-
     @Override
     public User getUserEntityByUserId(int id) {
 
         return this.userDao.getById(id);
     }
-
     @Override
     public Result joinIntoRoom(int userId, int roomId) throws BusinessException {
 
@@ -174,13 +160,6 @@ public class UserManager implements UserService {
 
         return new SuccessResult("Kullanıcı  odaya başarılı bir şekilde giriş yaptı.");
     }
-
-
-    /*
-    * Point point = this.modelMapperService.forRequest().map(createPointRequest,Point.class);
-        this.pointDao.save(point);
-        Room room = this.roomService.getRoomByOwner_OwnerId(createPointRequest.getPointsRecieverId());
-        * */
     @Override
     @Transactional
     public Result leaveFromRoom(LeaveRoomRequest leaveRoomRequest) throws BusinessException {
@@ -203,7 +182,6 @@ public class UserManager implements UserService {
 
         return new SuccessResult("Odadan başarıyla çıkıldı.");
     }
-
     @Override
     public Result quit(int id) {
 
@@ -213,13 +191,11 @@ public class UserManager implements UserService {
 
         return new SuccessResult("Kullanıcı başarıyla çıkış yaptı.");
     }
-
     @Override
     public boolean checkIfUserExists(User user){
 
         return this.userDao.existsById(user.getId());
     }
-
     private boolean checkIfPasswordIsCorrect(User user, String password){
 
         if (user.getPassword().equals(password)){
@@ -228,7 +204,6 @@ public class UserManager implements UserService {
         }
         return false;
     }
-
     @Override
     public boolean checkIfUserDidLogIn(int userId) throws BusinessException {
 
@@ -241,13 +216,11 @@ public class UserManager implements UserService {
 
         return true;
     }
-
     @Override
     public User getUserById(int id) {
 
         return this.userDao.getById(id);
     }
-
     private boolean checkIfPasswordLengthIsNotLessThanFiveChars(String password) throws BusinessException {
 
         if (password.length()<5){
@@ -256,7 +229,6 @@ public class UserManager implements UserService {
 
         return true;
     }
-
     private boolean checkIfUserNameIsUnique(String userName) throws BusinessException {
 
         if (this.userDao.getUserByUserName(userName) != null){
@@ -264,7 +236,6 @@ public class UserManager implements UserService {
         }
       return true;
     }
-
     private boolean checkIfUserIsNotNull(String userName) throws BusinessException {
 
         if (this.userDao.getUserByUserName(userName) == null){
