@@ -20,4 +20,6 @@ public class RoomByIdDto {
     private String city;
 
     private String description;
+
+    private double averagePoint;
 }

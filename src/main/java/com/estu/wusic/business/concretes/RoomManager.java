@@ -1,5 +1,6 @@
 package com.estu.wusic.business.concretes;
 
+import com.estu.wusic.business.abstracts.PointService;
 import com.estu.wusic.business.abstracts.RoomService;
 import com.estu.wusic.business.abstracts.UserService;
 import com.estu.wusic.business.dtos.roomDtos.RoomByIdDto;
@@ -15,6 +16,7 @@ import com.estu.wusic.core.utilities.results.SuccessResult;
 import com.estu.wusic.dataAccess.abstracts.CityDao;
 import com.estu.wusic.dataAccess.abstracts.RoomDao;
 import com.estu.wusic.entities.Room;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,12 +30,16 @@ public class RoomManager implements RoomService {
     private UserService userService;
     private CityDao cityDao;
 
-    public RoomManager(RoomDao roomDao, ModelMapperService modelMapperService, UserService userService,CityDao cityDao) {
+    private PointService pointService;
+
+    public RoomManager(RoomDao roomDao, ModelMapperService modelMapperService, UserService userService, CityDao cityDao,
+                       @Lazy PointService pointService) {
 
         this.roomDao = roomDao;
         this.modelMapperService = modelMapperService;
         this.userService = userService;
         this.cityDao = cityDao;
+        this.pointService = pointService;
     }
 
     @Override
@@ -68,6 +74,7 @@ public class RoomManager implements RoomService {
         Room room = this.modelMapperService.forRequest().map(createRoomRequest,Room.class);
         room.setCity(this.cityDao.getById(createRoomRequest.getCity()));
         room.setCreationDate(java.time.LocalDate.now());
+        room.setAveragePoint(0);
         this.roomDao.save(room);
 
         return new SuccessResult("Oda başarılı bir şekilde oluşturuldu.");
@@ -95,6 +102,7 @@ public class RoomManager implements RoomService {
 
         Room room = this.roomDao.getById(id);
         RoomByIdDto response = this.modelMapperService.forDto().map(room,RoomByIdDto.class);
+        System.out.println(pointService.getAvaragePointOfHost(room.getOwner().getId()).getData());
 
         return new SuccessDataResult<RoomByIdDto>(response,"Oda id kullanarak bulundu.");
     }
@@ -110,6 +118,14 @@ public class RoomManager implements RoomService {
     }
 
     @Override
+    public Room getRoomByOwner_OwnerId(int ownerId) {
+
+        Room room = this.roomDao.getRoomByOwner_Id(ownerId);
+
+        return room;
+    }
+
+    @Override
     public void save(Room room) {
 
         this.roomDao.save(room);
@@ -119,6 +135,17 @@ public class RoomManager implements RoomService {
     public boolean checkIfRoomExists(int roomId){
 
         return this.roomDao.existsById(roomId);
+    }
+
+    private boolean checkIfUserDoesNotHaveAnyPoint(int userId){
+
+        if (this.pointService.getAvaragePointOfHost(userId) == null || this.pointService.getAvaragePointOfHost(userId).getData() == 0){
+
+            Room room = this.roomDao.getRoomByOwner_Id(userId);
+            room.setAveragePoint(0);
+        }
+
+        return true;
     }
 
 }

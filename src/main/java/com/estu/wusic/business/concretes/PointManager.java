@@ -1,6 +1,7 @@
 package com.estu.wusic.business.concretes;
 
 import com.estu.wusic.business.abstracts.PointService;
+import com.estu.wusic.business.abstracts.RoomService;
 import com.estu.wusic.business.dtos.pointDtos.PointByIdDto;
 import com.estu.wusic.business.dtos.pointDtos.PointListDto;
 import com.estu.wusic.business.requests.pointRequests.CreatePointRequest;
@@ -11,6 +12,7 @@ import com.estu.wusic.core.utilities.results.SuccessDataResult;
 import com.estu.wusic.core.utilities.results.SuccessResult;
 import com.estu.wusic.dataAccess.abstracts.PointDao;
 import com.estu.wusic.entities.Point;
+import com.estu.wusic.entities.Room;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +24,12 @@ public class PointManager implements PointService {
     private PointDao pointDao;
     private ModelMapperService modelMapperService;
 
-    public PointManager(PointDao pointDao, ModelMapperService modelMapperService) {
+    private RoomService roomService;
+
+    public PointManager(PointDao pointDao, ModelMapperService modelMapperService, RoomService roomService) {
         this.pointDao = pointDao;
         this.modelMapperService = modelMapperService;
+        this.roomService = roomService;
     }
 
     @Override
@@ -32,6 +37,9 @@ public class PointManager implements PointService {
 
         Point point = this.modelMapperService.forRequest().map(createPointRequest,Point.class);
         this.pointDao.save(point);
+        Room room = this.roomService.getRoomByOwner_OwnerId(createPointRequest.getPointsRecieverId());
+        room.setAveragePoint(getAvaragePointOfHost(createPointRequest.getPointsRecieverId()).getData());
+        this.roomService.save(room);
 
         return new SuccessResult("Puan başarıyla verildi.");
     }

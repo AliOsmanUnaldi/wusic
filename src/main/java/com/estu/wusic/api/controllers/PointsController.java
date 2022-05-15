@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ponints")
+@RequestMapping("/api/points")
 public class PointsController {
 
     private PointService pointService;

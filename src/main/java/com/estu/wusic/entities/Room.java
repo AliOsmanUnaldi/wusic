@@ -48,4 +48,7 @@ public class Room {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "average_point")
+    private double averagePoint;
 }

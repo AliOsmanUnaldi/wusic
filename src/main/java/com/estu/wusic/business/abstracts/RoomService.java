@@ -27,6 +27,8 @@ public interface RoomService {
 
     Room getRoomByRoomId(int roomId) throws BusinessException;
 
+    Room getRoomByOwner_OwnerId(int ownerId);
+
     void save (Room room);
 
     boolean checkIfRoomExists(int roomId);
