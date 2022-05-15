@@ -2,6 +2,7 @@ package com.estu.wusic.business.abstracts;
 
 import com.estu.wusic.business.dtos.userDtos.UserByIdDto;
 import com.estu.wusic.business.dtos.userDtos.UserListDto;
+import com.estu.wusic.business.requests.leaveRoomRequest.LeaveRoomRequest;
 import com.estu.wusic.business.requests.userRequests.CreateUserRequest;
 import com.estu.wusic.business.requests.userRequests.UpdateUserRequest;
 import com.estu.wusic.core.exceptions.BusinessException;
@@ -33,7 +34,7 @@ public interface UserService {
 
     Result joinIntoRoom(int userId, int roomId) throws BusinessException;
 
-    Result leaveFromRoom(int userId) throws BusinessException;
+    Result leaveFromRoom(LeaveRoomRequest leaveRoomRequest) throws BusinessException;
 
     Result quit(int id);
 

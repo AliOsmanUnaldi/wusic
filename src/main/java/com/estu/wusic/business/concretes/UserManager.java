@@ -1,15 +1,22 @@
 package com.estu.wusic.business.concretes;
 
+import com.estu.wusic.business.abstracts.CommentService;
+import com.estu.wusic.business.abstracts.PointService;
 import com.estu.wusic.business.abstracts.RoomService;
 import com.estu.wusic.business.abstracts.UserService;
 import com.estu.wusic.business.dtos.userDtos.UserByIdDto;
 import com.estu.wusic.business.dtos.userDtos.UserListDto;
+import com.estu.wusic.business.requests.commentRequests.CreateCommentRequest;
+import com.estu.wusic.business.requests.leaveRoomRequest.LeaveRoomRequest;
+import com.estu.wusic.business.requests.pointRequests.CreatePointRequest;
 import com.estu.wusic.business.requests.userRequests.CreateUserRequest;
 import com.estu.wusic.business.requests.userRequests.UpdateUserRequest;
 import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.mapping.ModelMapperService;
 import com.estu.wusic.core.utilities.results.*;
 import com.estu.wusic.dataAccess.abstracts.UserDao;
+import com.estu.wusic.entities.Comment;
+import com.estu.wusic.entities.Point;
 import com.estu.wusic.entities.Room;
 import com.estu.wusic.entities.User;
 import org.springframework.context.annotation.Lazy;
@@ -17,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,11 +36,18 @@ public class UserManager implements UserService {
     private ModelMapperService modelMapperService;
     private RoomService roomService;
 
-    public UserManager(UserDao userDao, ModelMapperService modelMapperService,@Lazy RoomService roomService) {
+    private PointService pointService;
+
+    private CommentService commentService;
+
+    public UserManager(UserDao userDao, ModelMapperService modelMapperService,@Lazy RoomService roomService,
+                       @Lazy CommentService commentService,@Lazy PointService pointService) {
 
         this.userDao = userDao;
         this.modelMapperService = modelMapperService;
         this.roomService = roomService;
+        this.commentService = commentService;
+        this.pointService = pointService;
     }
 
     @Override
@@ -160,12 +175,27 @@ public class UserManager implements UserService {
         return new SuccessResult("Kullanıcı  odaya başarılı bir şekilde giriş yaptı.");
     }
 
-    @Override
-    public Result leaveFromRoom(int userId) throws BusinessException {
 
-        User user = this.userDao.getById(userId);
+    /*
+    * Point point = this.modelMapperService.forRequest().map(createPointRequest,Point.class);
+        this.pointDao.save(point);
+        Room room = this.roomService.getRoomByOwner_OwnerId(createPointRequest.getPointsRecieverId());
+        * */
+    @Override
+    @Transactional
+    public Result leaveFromRoom(LeaveRoomRequest leaveRoomRequest) throws BusinessException {
+
+        User user = this.userDao.getById(leaveRoomRequest.getCreateCommentRequest().getCommentsOwnerId());
         user.setRoomJoined(null);
         this.userDao.save(user);
+
+        CreatePointRequest createPointRequest = leaveRoomRequest.getCreatePointRequest();
+        Point point = this.modelMapperService.forRequest().map(createPointRequest,Point.class);
+        this.pointService.save(point);
+
+        CreateCommentRequest createCommentRequest = leaveRoomRequest.getCreateCommentRequest();
+        Comment comment = this.modelMapperService.forRequest().map(createCommentRequest,Comment.class);
+        this.commentService.save(comment);
 
         if (user.getRoomJoined() != null){
             throw new BusinessException("Odadan çıkılamadı!");

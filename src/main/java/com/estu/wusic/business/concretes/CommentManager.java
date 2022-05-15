@@ -71,4 +71,10 @@ public class CommentManager implements CommentService {
 
         return new SuccessDataResult(result,"Kullanıcıya yapılan yorumlar başarılı bir şekilde listelendi.");
     }
+
+    @Override
+    public void save(Comment comment) {
+
+        this.commentDao.save(comment);
+    }
 }

@@ -3,6 +3,7 @@ package com.estu.wusic.api.controllers;
 import com.estu.wusic.business.abstracts.UserService;
 import com.estu.wusic.business.dtos.userDtos.UserByIdDto;
 import com.estu.wusic.business.dtos.userDtos.UserListDto;
+import com.estu.wusic.business.requests.leaveRoomRequest.LeaveRoomRequest;
 import com.estu.wusic.business.requests.userRequests.CreateUserRequest;
 import com.estu.wusic.business.requests.userRequests.UpdateUserRequest;
 import com.estu.wusic.core.exceptions.BusinessException;
@@ -69,9 +70,9 @@ public class UsersController {
         return this.userService.joinIntoRoom(userId,roomId);
     }
 
-    @GetMapping("/leaveFromRoom")
-    public Result leaveFromRoom(@RequestBody int userId) throws BusinessException {
-        return this.userService.leaveFromRoom(userId);
+    @PostMapping("/leaveFromRoom")
+    public Result leaveFromRoom(@RequestBody LeaveRoomRequest leaveRoomRequest) throws BusinessException {
+        return this.userService.leaveFromRoom(leaveRoomRequest);
     }
 
     @GetMapping("/quit")

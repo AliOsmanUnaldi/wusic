@@ -77,4 +77,10 @@ public class PointManager implements PointService {
 
         return new SuccessDataResult<Double>(result,"Kullanıcın ortalama puanı başarıyla hesaplandı.");
     }
+
+    @Override
+    public void save(Point point) {
+
+        this.pointDao.save(point);
+    }
 }
