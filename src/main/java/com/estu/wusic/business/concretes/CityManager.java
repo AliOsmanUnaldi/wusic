@@ -39,7 +39,7 @@ public class CityManager implements CityService {
     @Override
     public DataResult<City> getCityById(int id) {
 
-        return new SuccessDataResult<City>(this.cityDao.getById(id),"Şehir id kullanarak bulundu.");
+        return new SuccessDataResult<City>(this.cityDao.findById(id).get(),"Şehir id kullanarak bulundu.");
     }
 
     @Override
