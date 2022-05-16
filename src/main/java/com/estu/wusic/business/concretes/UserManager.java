@@ -138,7 +138,7 @@ public class UserManager implements UserService {
     @Override
     public User getUserEntityByUserId(int id) {
 
-        return this.userDao.getById(id);
+        return this.userDao.findById(id).get();
     }
     @Override
     public Result joinIntoRoom(int userId, int roomId) throws BusinessException {
