@@ -39,7 +39,7 @@ public class Room {
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "city", referencedColumnName = "id")
     private City city;
 
