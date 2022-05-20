@@ -51,4 +51,10 @@ public class Room {
 
     @Column(name = "average_point")
     private double averagePoint;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "latitude")
+    private Double latitude;
 }

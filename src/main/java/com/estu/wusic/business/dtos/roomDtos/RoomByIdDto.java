@@ -22,4 +22,8 @@ public class RoomByIdDto {
     private String description;
 
     private double averagePoint;
+
+    private double longitude;
+
+    private double latitude;
 }

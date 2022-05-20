@@ -20,4 +20,8 @@ public class RoomListDto {
     private String city;
 
     private String description;
+
+    private double longitude;
+
+    private double latitude;
 }
