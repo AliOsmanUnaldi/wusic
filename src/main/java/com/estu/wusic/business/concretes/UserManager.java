@@ -4,6 +4,7 @@ import com.estu.wusic.business.abstracts.CommentService;
 import com.estu.wusic.business.abstracts.PointService;
 import com.estu.wusic.business.abstracts.RoomService;
 import com.estu.wusic.business.abstracts.UserService;
+import com.estu.wusic.business.dtos.userDtos.LoginResponseDto;
 import com.estu.wusic.business.dtos.userDtos.UserByIdDto;
 import com.estu.wusic.business.dtos.userDtos.UserListDto;
 import com.estu.wusic.business.requests.commentRequests.CreateCommentRequest;
@@ -119,7 +120,7 @@ public class UserManager implements UserService {
         return new SuccessDataResult<List<UserListDto>>(response,"Kullanıcılar başarılı bir şekilde sıralandı.");
     }
     @Override
-    public DataResult<Integer> login(String userName, String password) throws BusinessException {
+    public DataResult<LoginResponseDto> login(String userName, String password) throws BusinessException {
 
         checkIfUserIsNotNull(userName);
 
@@ -131,9 +132,12 @@ public class UserManager implements UserService {
         }
 
         user.setLoogedIn(true);
+        int roomId = this.roomService.getRoomsByOwner_Id(user.getId()).getData();
         this.userDao.save(user);
 
-        return new SuccessDataResult<Integer>(user.getId(),"Kullanıcı başarıyla giriş yaptı.");
+        LoginResponseDto loginResponseDto = new LoginResponseDto(user.getId(),roomId);
+
+        return new SuccessDataResult<LoginResponseDto>(loginResponseDto,"Kullanıcı başarıyla giriş yaptı.");
     }
     @Override
     public User getUserEntityByUserId(int id) {

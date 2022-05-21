@@ -1,5 +1,6 @@
 package com.estu.wusic.business.abstracts;
 
+import com.estu.wusic.business.dtos.userDtos.LoginResponseDto;
 import com.estu.wusic.business.dtos.userDtos.UserByIdDto;
 import com.estu.wusic.business.dtos.userDtos.UserListDto;
 import com.estu.wusic.business.requests.leaveRoomRequest.LeaveRoomRequest;
@@ -28,7 +29,7 @@ public interface UserService {
 
     DataResult<List<UserListDto>> getAllUsersSorted(String ascOrDesc);
 
-    DataResult<Integer> login (String userName, String password) throws BusinessException;
+    DataResult<LoginResponseDto> login (String userName, String password) throws BusinessException;
 
     User getUserEntityByUserId(int id);
 

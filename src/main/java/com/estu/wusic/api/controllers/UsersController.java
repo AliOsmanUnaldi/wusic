@@ -1,6 +1,7 @@
 package com.estu.wusic.api.controllers;
 
 import com.estu.wusic.business.abstracts.UserService;
+import com.estu.wusic.business.dtos.userDtos.LoginResponseDto;
 import com.estu.wusic.business.dtos.userDtos.UserByIdDto;
 import com.estu.wusic.business.dtos.userDtos.UserListDto;
 import com.estu.wusic.business.requests.leaveRoomRequest.LeaveRoomRequest;
@@ -61,7 +62,7 @@ public class UsersController {
     }
 
     @GetMapping("/login")
-    public Result login(@RequestParam String userName, @RequestParam String password) throws BusinessException {
+    public DataResult<LoginResponseDto> login(@RequestParam String userName, @RequestParam String password) throws BusinessException {
         return this.userService.login(userName,password);
     }
 
