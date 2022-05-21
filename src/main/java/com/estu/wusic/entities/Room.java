@@ -57,4 +57,8 @@ public class Room {
 
     @Column(name = "latitude")
     private Double latitude;
+
+    public int getId() {
+        return id;
+    }
 }

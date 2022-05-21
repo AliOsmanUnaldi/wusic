@@ -68,7 +68,7 @@ public class RoomManager implements RoomService {
 
 
     @Override
-    public Result add(CreateRoomRequest createRoomRequest) throws BusinessException {
+    public DataResult<Integer> add(CreateRoomRequest createRoomRequest) throws BusinessException {
 
         this.userService.checkIfUserDidLogIn(createRoomRequest.getOwnerId());
         Room room = this.modelMapperService.forRequest().map(createRoomRequest,Room.class);
@@ -76,8 +76,12 @@ public class RoomManager implements RoomService {
         room.setCreationDate(java.time.LocalDate.now());
         room.setAveragePoint(0);
         this.roomDao.save(room);
+        List<Room> roomList = this.roomDao.getRoomByOwner_IdAndCreationDate(room.getOwner().getId(),room.getCreationDate());
+        int roomId = roomList.get(roomList.size()-1).getId();
 
-        return new SuccessResult("Oda başarılı bir şekilde oluşturuldu.");
+
+
+        return new SuccessDataResult<Integer>(roomId,"Oda başarılı bir şekilde oluşturuldu.");
     }
 
     @Override
@@ -102,7 +106,7 @@ public class RoomManager implements RoomService {
 
         Room room = this.roomDao.getById(id);
         RoomByIdDto response = this.modelMapperService.forDto().map(room,RoomByIdDto.class);
-        System.out.println(pointService.getAvaragePointOfHost(room.getOwner().getId()).getData());
+
 
         return new SuccessDataResult<RoomByIdDto>(response,"Oda id kullanarak bulundu.");
     }

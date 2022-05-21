@@ -17,7 +17,7 @@ public interface RoomService {
 
     DataResult<List<RoomListDto>> getAllRoomsByCityName(String city, int userId) throws BusinessException;
 
-    Result add(CreateRoomRequest createRoomRequest) throws BusinessException;
+    DataResult<Integer> add(CreateRoomRequest createRoomRequest) throws BusinessException;
 
     Result update(UpdateRoomRequest updateRoomRequest) throws BusinessException;
 

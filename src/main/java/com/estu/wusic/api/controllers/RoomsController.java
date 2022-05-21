@@ -30,7 +30,7 @@ public class RoomsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody @Valid CreateRoomRequest createRoomRequest) throws BusinessException {
+    public DataResult<Integer> add(@RequestBody @Valid CreateRoomRequest createRoomRequest) throws BusinessException {
 
         return this.roomService.add(createRoomRequest);
     }
