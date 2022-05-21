@@ -83,7 +83,6 @@ public class RoomManager implements RoomService {
         int roomId = roomList.get(roomList.size()-1).getId();
 
 
-
         return new SuccessDataResult<Integer>(roomId,"Oda başarılı bir şekilde oluşturuldu.");
     }
 
@@ -145,6 +144,16 @@ public class RoomManager implements RoomService {
     }
 
     @Override
+    public DataResult<Integer> getRoomsByOwner_Id(int ownerId) throws BusinessException {
+
+        checkIfUserDoesHaveRoom(ownerId);
+        Room room = this.roomDao.getRoomsByOwner_Id(ownerId).get(this.roomDao.getRoomsByOwner_Id(ownerId).size()-1);
+        RoomByIdDto roomByIdDto = this.modelMapperService.forDto().map(room,RoomByIdDto.class);
+
+        return new SuccessDataResult<Integer>(roomByIdDto.getId(),"Kullanıcının odası bulundu.");
+    }
+
+    @Override
     public void save(Room room) {
 
         this.roomDao.save(room);
@@ -162,6 +171,15 @@ public class RoomManager implements RoomService {
 
             Room room = this.roomDao.getRoomByOwner_Id(userId);
             room.setAveragePoint(0);
+        }
+
+        return true;
+    }
+
+    private boolean checkIfUserDoesHaveRoom(int ownerId) throws BusinessException {
+
+        if (this.roomDao.getRoomsByOwner_Id(ownerId).size() == 0){
+            throw new BusinessException("Kullanıcının odası yok!");
         }
 
         return true;

@@ -32,6 +32,8 @@ public interface RoomService {
 
     List<String> getAllParticipantsByRoomId(int roomId);
 
+    DataResult<Integer> getRoomsByOwner_Id(int ownerId) throws BusinessException;
+
     void save (Room room);
 
     boolean checkIfRoomExists(int roomId);

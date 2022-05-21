@@ -65,4 +65,10 @@ public class RoomsController {
 
         return this.roomService.getAllParticipantsByRoomId(roomId);
     }
+
+    @GetMapping("/getRoomsByOwner_Id")
+    public DataResult<Integer> getRoomsByOwner_Id(@RequestParam int ownerId) throws BusinessException{
+
+        return this.roomService.getRoomsByOwner_Id(ownerId);
+    }
 }
