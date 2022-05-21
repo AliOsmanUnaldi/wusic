@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentListByIdDto {
 
-    private int commentId;
-    private int commentsOwnerId;
-    private int commentsRecieverId;
     private String commentText;
+
+    private String commentOwnerName;
 }

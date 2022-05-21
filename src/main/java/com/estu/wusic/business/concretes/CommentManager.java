@@ -40,16 +40,9 @@ public class CommentManager implements CommentService {
     @Override
     public Result add(CreateCommentRequest createCommentRequest) throws BusinessException {
 
-        if (!this.userService.checkIfUserExists(this.userService.getUserById(createCommentRequest.getCommentsOwnerId()))
-        && !this.userService.checkIfUserExists(this.userService.getUserById(createCommentRequest.getCommentsRecieverId()))
-        && this.userService.checkIfUserDidLogIn(createCommentRequest.getCommentsOwnerId())
-        && this.userService.checkIfUserDidLogIn(createCommentRequest.getCommentsRecieverId())){
-             throw new BusinessException("Bir hata oluştu.");
-        }
 
         Comment comment = this.modelMapperService.forRequest().map(createCommentRequest,Comment.class);
 
-        checkIfUserIsInTheRoom(createCommentRequest.getCommentsOwnerId(),comment);
         this.commentDao.save(comment);
 
         return new SuccessResult("Yorum başarılı bir şekilde eklendi.");
@@ -60,6 +53,7 @@ public class CommentManager implements CommentService {
 
         Comment comment = commentDao.getById(id);
         CommentByIdDto commentByIdDto = this.modelMapperService.forDto().map(comment,CommentByIdDto.class);
+
 
         return new SuccessDataResult(commentByIdDto,"Yorum başarılı bir şekilde bulundu.");
     }
@@ -72,6 +66,10 @@ public class CommentManager implements CommentService {
         List<CommentListByIdDto> result = comments.stream()
                 .map(comment -> this.modelMapperService.forDto().map(comment,CommentListByIdDto.class))
                 .collect(Collectors.toList());
+        for (CommentListByIdDto c:result
+             ) {
+            c.setCommentOwnerName(this.userService.getUserById(id).getUserName());
+        }
 
         return new SuccessDataResult(result,"Kullanıcıya yapılan yorumlar başarılı bir şekilde listelendi.");
     }
