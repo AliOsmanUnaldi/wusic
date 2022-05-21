@@ -5,6 +5,7 @@ import com.estu.wusic.business.abstracts.RoomService;
 import com.estu.wusic.business.abstracts.UserService;
 import com.estu.wusic.business.dtos.roomDtos.RoomByIdDto;
 import com.estu.wusic.business.dtos.roomDtos.RoomListDto;
+import com.estu.wusic.business.dtos.userDtos.UserListDto;
 import com.estu.wusic.business.requests.roomRequests.CreateRoomRequest;
 import com.estu.wusic.business.requests.roomRequests.UpdateRoomRequest;
 import com.estu.wusic.core.exceptions.BusinessException;
@@ -16,9 +17,11 @@ import com.estu.wusic.core.utilities.results.SuccessResult;
 import com.estu.wusic.dataAccess.abstracts.CityDao;
 import com.estu.wusic.dataAccess.abstracts.RoomDao;
 import com.estu.wusic.entities.Room;
+import com.estu.wusic.entities.User;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +35,7 @@ public class RoomManager implements RoomService {
 
     private PointService pointService;
 
-    public RoomManager(RoomDao roomDao, ModelMapperService modelMapperService, UserService userService, CityDao cityDao,
+    public RoomManager(RoomDao roomDao, ModelMapperService modelMapperService,@Lazy UserService userService, CityDao cityDao,
                        @Lazy PointService pointService) {
 
         this.roomDao = roomDao;
@@ -127,6 +130,18 @@ public class RoomManager implements RoomService {
         Room room = this.roomDao.getRoomByOwner_Id(ownerId);
 
         return room;
+    }
+
+    @Override
+    public List<String> getAllParticipantsByRoomId(int roomId) {
+        Room room = this.roomDao.getById(roomId);
+        List<String> participants=new ArrayList<>();
+        for (User user:room.getParticipants()
+             ) {
+            participants.add(user.getUserName());
+        }
+
+        return participants;
     }
 
     @Override

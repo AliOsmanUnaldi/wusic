@@ -8,6 +8,7 @@ import com.estu.wusic.business.requests.roomRequests.UpdateRoomRequest;
 import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
+import com.estu.wusic.entities.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -57,5 +58,11 @@ public class RoomsController {
     public DataResult<List<RoomListDto>> getAllRoomsByCity(@RequestParam String city, @RequestParam int userId) throws BusinessException {
 
         return this.roomService.getAllRoomsByCityName(city,userId);
+    }
+
+    @GetMapping("/getAllParticipants")
+    public List<String> getAllParticipants(@RequestParam int roomId){
+
+        return this.roomService.getAllParticipantsByRoomId(roomId);
     }
 }

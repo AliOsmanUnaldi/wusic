@@ -8,6 +8,7 @@ import com.estu.wusic.core.exceptions.BusinessException;
 import com.estu.wusic.core.utilities.results.DataResult;
 import com.estu.wusic.core.utilities.results.Result;
 import com.estu.wusic.entities.Room;
+import com.estu.wusic.entities.User;
 
 import java.util.List;
 
@@ -28,6 +29,8 @@ public interface RoomService {
     Room getRoomByRoomId(int roomId) throws BusinessException;
 
     Room getRoomByOwner_OwnerId(int ownerId);
+
+    List<String> getAllParticipantsByRoomId(int roomId);
 
     void save (Room room);
 
