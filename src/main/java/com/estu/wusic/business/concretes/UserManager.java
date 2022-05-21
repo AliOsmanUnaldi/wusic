@@ -176,6 +176,11 @@ public class UserManager implements UserService {
         Comment comment = this.modelMapperService.forRequest().map(createCommentRequest,Comment.class);
         this.commentService.save(comment);
 
+        int roomId = this.roomService.getRoomsByOwner_Id(createCommentRequest.getCommentsRecieverId()).getData();
+        Room room = this.roomService.getRoomByRoomId(roomId);
+        room.setAveragePoint(this.pointService.getAvaragePointOfHost(createPointRequest.getPointsRecieverId()).getData());
+        this.roomService.save(room);
+
         if (user.getRoomJoined() != null){
             throw new BusinessException("Odadan çıkılamadı!");
         }
