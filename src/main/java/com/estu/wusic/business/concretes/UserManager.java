@@ -133,12 +133,11 @@ public class UserManager implements UserService {
 
         user.setLoogedIn(true);
 
-        int roomId;
+        int roomId = -1;
 
-        if ( this.roomService.getRoomsByOwner_Id(user.getId()).getData() != null){
+        if ( user.getRoomCreated().size() >=1 ){
             roomId = this.roomService.getRoomsByOwner_Id(user.getId()).getData();
         }
-        else roomId = -1;
 
         this.userDao.save(user);
 
