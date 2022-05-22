@@ -132,7 +132,14 @@ public class UserManager implements UserService {
         }
 
         user.setLoogedIn(true);
-        int roomId = this.roomService.getRoomsByOwner_Id(user.getId()).getData();
+
+        int roomId;
+
+        if ( this.roomService.getRoomsByOwner_Id(user.getId()).getData() != null){
+            roomId = this.roomService.getRoomsByOwner_Id(user.getId()).getData();
+        }
+        else roomId = -1;
+
         this.userDao.save(user);
 
         LoginResponseDto loginResponseDto = new LoginResponseDto(user.getId(),roomId);
