@@ -16,6 +16,7 @@ import com.estu.wusic.core.utilities.results.SuccessDataResult;
 import com.estu.wusic.core.utilities.results.SuccessResult;
 import com.estu.wusic.dataAccess.abstracts.CityDao;
 import com.estu.wusic.dataAccess.abstracts.RoomDao;
+import com.estu.wusic.entities.City;
 import com.estu.wusic.entities.Room;
 import com.estu.wusic.entities.User;
 import org.springframework.context.annotation.Lazy;
@@ -75,7 +76,9 @@ public class RoomManager implements RoomService {
 
         this.userService.checkIfUserDidLogIn(createRoomRequest.getOwnerId());
         Room room = this.modelMapperService.forRequest().map(createRoomRequest,Room.class);
-        room.setCity(this.cityDao.getById(createRoomRequest.getCity()));
+        createRoomRequest.setCity(createRoomRequest.getCity().toUpperCase());
+        City city = this.cityDao.getCityByCity(createRoomRequest.getCity());
+        room.setCity(city);
         room.setCreationDate(java.time.LocalDate.now());
         room.setAveragePoint(0);
         this.roomDao.save(room);

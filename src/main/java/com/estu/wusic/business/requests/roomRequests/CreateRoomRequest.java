@@ -26,8 +26,8 @@ public class CreateRoomRequest {
     private String genre;
 
     @NotNull
-    @Positive
-    private int city;
+    @NotBlank
+    private String city;
 
     private String password;
 
